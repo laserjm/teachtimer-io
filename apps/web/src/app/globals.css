@@ -67,6 +67,27 @@ input[type="checkbox"] {
   transition: stroke-dashoffset 250ms linear;
 }
 
+.timer-warning-final-minute .timer-ring-progress {
+  stroke: #f59e0b;
+}
+
+.timer-warning-final-ten .timer-ring-progress {
+  stroke: #ef4444;
+}
+
+.timer-warning-final-minute {
+  box-shadow:
+    0 30px 80px rgba(8, 12, 28, 0.5),
+    inset 0 0 0 2px rgba(245, 158, 11, 0.45);
+}
+
+.timer-warning-final-ten {
+  box-shadow:
+    0 30px 80px rgba(8, 12, 28, 0.5),
+    inset 0 0 0 2px rgba(239, 68, 68, 0.55);
+  animation: timerCriticalPulse 0.95s ease-in-out infinite;
+}
+
 .timer-icon-btn {
   display: inline-flex;
   align-items: center;
@@ -127,4 +148,18 @@ input[type="checkbox"] {
 .timer-action-secondary:hover {
   border-color: rgba(171, 197, 255, 0.9);
   background: rgba(171, 197, 255, 0.16);
+}
+
+@keyframes timerCriticalPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.004);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

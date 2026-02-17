@@ -1,5 +1,27 @@
 import { clamp, type SoundMode } from "@teachtimer/core";
 
+let sharedAudioContext: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const AudioCtx =
+    window.AudioContext ||
+    (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+
+  if (!AudioCtx) {
+    return null;
+  }
+
+  if (!sharedAudioContext) {
+    sharedAudioContext = new AudioCtx();
+  }
+
+  return sharedAudioContext;
+}
+
 function scheduleTone(
   audioContext: AudioContext,
   startTime: number,
@@ -29,12 +51,19 @@ export async function playCompletionSound(mode: SoundMode, volume: number): Prom
     return;
   }
 
-  const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-  if (!AudioCtx) {
+  const context = getAudioContext();
+  if (!context) {
     return;
   }
 
-  const context = new AudioCtx();
+  if (context.state === "suspended") {
+    await context.resume();
+  }
+
+  if (context.state !== "running") {
+    return;
+  }
+
   const start = context.currentTime;
 
   if (mode === "bell") {
@@ -45,7 +74,15 @@ export async function playCompletionSound(mode: SoundMode, volume: number): Prom
     scheduleTone(context, start + 0.24, 0.22, 988, volume * 0.95);
   }
 
-  window.setTimeout(() => {
-    void context.close();
-  }, 1200);
+}
+
+export async function unlockAudioContext(): Promise<void> {
+  const context = getAudioContext();
+  if (!context) {
+    return;
+  }
+
+  if (context.state === "suspended") {
+    await context.resume();
+  }
 }

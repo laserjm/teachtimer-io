@@ -5,6 +5,7 @@ import {
   DEFAULT_SETTINGS,
   clamp,
   formatTimer,
+  getWarningLevel,
   progressPercent,
   remainingFromTarget,
   type AppSettings,
@@ -12,7 +13,7 @@ import {
 } from "@teachtimer/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { playCompletionSound } from "@/lib/audio";
+import { playCompletionSound, unlockAudioContext } from "@/lib/audio";
 import { loadLocalState, saveLocalState } from "@/lib/storage";
 
 const MIN_SECONDS = 10;
@@ -146,6 +147,10 @@ export default function TimerApp() {
     () => progressPercent(durationSeconds, remainingSeconds),
     [durationSeconds, remainingSeconds],
   );
+  const warningLevel = useMemo(
+    () => getWarningLevel(remainingSeconds, settings.finalMinuteWarnings),
+    [remainingSeconds, settings.finalMinuteWarnings],
+  );
 
   const timerLabel = useMemo(() => formatTimer(remainingSeconds), [remainingSeconds]);
 
@@ -178,6 +183,20 @@ export default function TimerApp() {
   useEffect(() => {
     document.documentElement.dataset.theme = settings.theme;
   }, [settings.theme]);
+
+  useEffect(() => {
+    const unlock = () => {
+      void unlockAudioContext();
+    };
+
+    window.addEventListener("pointerdown", unlock, { once: true });
+    window.addEventListener("keydown", unlock, { once: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+  }, []);
 
   useEffect(() => {
     const onFullscreenChange = () => {
@@ -247,6 +266,7 @@ export default function TimerApp() {
   );
 
   const startTimer = useCallback(() => {
+    void unlockAudioContext();
     const startFrom = remainingSeconds > 0 ? remainingSeconds : durationSeconds;
 
     setRemainingSeconds(startFrom);
@@ -256,6 +276,7 @@ export default function TimerApp() {
   }, [durationSeconds, remainingSeconds]);
 
   const pauseTimer = useCallback(() => {
+    void unlockAudioContext();
     if (!isRunning || targetTimestampMs === null) {
       return;
     }
@@ -266,6 +287,7 @@ export default function TimerApp() {
   }, [isRunning, targetTimestampMs]);
 
   const resetTimer = useCallback(() => {
+    void unlockAudioContext();
     setRemainingSeconds(durationSeconds);
     setTargetTimestampMs(null);
     setIsRunning(false);
@@ -284,6 +306,7 @@ export default function TimerApp() {
   }, []);
 
   const toggleSoundMode = useCallback(() => {
+    void unlockAudioContext();
     setSettings((prev) => ({
       ...prev,
       sound: prev.sound === "silent" ? "chime" : "silent",
@@ -292,6 +315,7 @@ export default function TimerApp() {
 
   const addTime = useCallback(
     (seconds: number) => {
+      void unlockAudioContext();
       setJustCompleted(false);
 
       setDurationSeconds((prev) => clamp(prev + seconds, MIN_SECONDS, MAX_SECONDS));
@@ -336,7 +360,9 @@ export default function TimerApp() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-3 md:p-4">
-      <section className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1320px] flex-col rounded-[24px] border border-white/10 bg-[var(--surface)] px-4 py-4 text-[var(--text)] shadow-[0_30px_80px_rgba(8,12,28,0.5)] md:px-5">
+      <section
+        className={`timer-shell timer-warning-${warningLevel} mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1320px] flex-col rounded-[24px] border border-white/10 bg-[var(--surface)] px-4 py-4 text-[var(--text)] shadow-[0_30px_80px_rgba(8,12,28,0.5)] md:px-5`}
+      >
         <header className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 text-sm md:text-[2rem]">
             <span className="inline-flex items-center rounded-full border border-transparent bg-[var(--tab-active)] px-5 py-2 text-base font-semibold text-[var(--text)] md:text-[2rem]">
