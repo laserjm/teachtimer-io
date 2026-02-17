@@ -456,8 +456,8 @@ export default function TimerApp() {
     : "h-[min(62vh,30rem)] w-[min(92vw,30rem)]";
 
   const timerSizeClass = isFullscreen
-    ? "text-[clamp(5rem,18vw,14rem)]"
-    : "text-[clamp(4rem,11vw,6.8rem)]";
+    ? "!text-[clamp(5rem,18vw,14rem)]"
+    : "!text-[clamp(4rem,11vw,6.8rem)]";
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-3 md:p-4">
