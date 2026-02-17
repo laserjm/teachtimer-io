@@ -1,50 +1,204 @@
 @import "tailwindcss";
+@import "../styles/tw-animate.css";
+@import "../styles/shadcn-tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Unified Design Tokens ─── */
+/* TeachTimer Design System v2 — Warm Teal-Cyan + Soft & Refined */
+/* All colors flow through CSS variables so every theme "just works". */
 
 :root {
-  --bg: #1c2130;
-  --surface: #2a3147;
-  --text: #dbe3f6;
-  --muted: #9ca7c9;
-  --accent: #a9c5ff;
-  --tab-active: #35558a;
+  /* App tokens — light is the default (classroom projectors) */
+  --bg: #f0ece6;
+  --surface: #ffffff;
+  --surface-raised: #f0ede8;
+  --text: #1a1d26;
+  --text-secondary: #4a5068;
+  --muted: #6b7280;
+  --accent: #0e7490;
+  --accent-bright: #0891b2;
+  --accent-light: rgba(8, 145, 178, 0.1);
+  --accent-muted: rgba(8, 145, 178, 0.06);
+  --tab-active: #dbf3f8;
+  --border: rgba(0, 0, 0, 0.09);
+  --border-strong: rgba(0, 0, 0, 0.17);
+  --ring-track: rgba(8, 145, 178, 0.14);
+  --shadow-color: rgba(0, 0, 0, 0.07);
+  --shadow-heavy: rgba(0, 0, 0, 0.12);
+  --warning-amber: #d97706;
+  --warning-red: #dc2626;
+  --success: #059669;
+  --gradient-spot-1: rgba(8, 145, 178, 0.06);
+  --gradient-spot-2: rgba(8, 145, 178, 0.04);
+
+  /* shadcn bridge — mapped from app tokens */
+  --background: #f0ece6;
+  --foreground: #1a1d26;
+  --card: #ffffff;
+  --card-foreground: #1a1d26;
+  --popover: #ffffff;
+  --popover-foreground: #1a1d26;
+  --primary: #0e7490;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ede8;
+  --secondary-foreground: #1a1d26;
+  --muted-foreground: #6b7280;
+  --accent-foreground: #1a1d26;
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.09);
+  --input: rgba(0, 0, 0, 0.09);
+  --ring: #0891b2;
+  --chart-1: #0e7490;
+  --chart-2: #0891b2;
+  --chart-3: #22d3ee;
+  --chart-4: #06b6d4;
+  --chart-5: #155e75;
+  --radius: 0.625rem;
+  --sidebar: #f0ede8;
+  --sidebar-foreground: #1a1d26;
+  --sidebar-primary: #0e7490;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f0ede8;
+  --sidebar-accent-foreground: #1a1d26;
+  --sidebar-border: rgba(0, 0, 0, 0.09);
+  --sidebar-ring: #0891b2;
 }
 
 html[data-theme="light"] {
-  --bg: #e7ecf7;
-  --surface: #f5f8ff;
-  --text: #17213d;
-  --muted: #60709a;
-  --accent: #365cae;
-  --tab-active: #d4e1ff;
+  --bg: #f0ece6;
+  --surface: #ffffff;
+  --surface-raised: #f0ede8;
+  --text: #1a1d26;
+  --text-secondary: #4a5068;
+  --muted: #6b7280;
+  --accent: #0e7490;
+  --accent-bright: #0891b2;
+  --accent-light: rgba(8, 145, 178, 0.1);
+  --accent-muted: rgba(8, 145, 178, 0.06);
+  --tab-active: #dbf3f8;
+  --border: rgba(0, 0, 0, 0.09);
+  --border-strong: rgba(0, 0, 0, 0.17);
+  --ring-track: rgba(8, 145, 178, 0.14);
+  --shadow-color: rgba(0, 0, 0, 0.07);
+  --shadow-heavy: rgba(0, 0, 0, 0.12);
+  --warning-amber: #d97706;
+  --warning-red: #dc2626;
+  --success: #059669;
+  --gradient-spot-1: rgba(8, 145, 178, 0.06);
+  --gradient-spot-2: rgba(8, 145, 178, 0.04);
+
+  /* shadcn bridge */
+  --background: #f0ece6;
+  --foreground: #1a1d26;
+  --card: #ffffff;
+  --card-foreground: #1a1d26;
+  --popover: #ffffff;
+  --popover-foreground: #1a1d26;
+  --primary: #0e7490;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ede8;
+  --secondary-foreground: #1a1d26;
+  --muted-foreground: #6b7280;
+  --accent-foreground: #1a1d26;
+  --destructive: #dc2626;
+  --input: rgba(0, 0, 0, 0.09);
+  --ring: #0891b2;
 }
 
 html[data-theme="dark"] {
-  --bg: #1c2130;
-  --surface: #2a3147;
-  --text: #dbe3f6;
-  --muted: #9ca7c9;
-  --accent: #a9c5ff;
-  --tab-active: #35558a;
+  --bg: #0c1018;
+  --surface: #161b2a;
+  --surface-raised: #1e2436;
+  --text: #e8ecf4;
+  --text-secondary: #a0a8be;
+  --muted: #8892aa;
+  --accent: #22d3ee;
+  --accent-bright: #22d3ee;
+  --accent-light: rgba(34, 211, 238, 0.12);
+  --accent-muted: rgba(34, 211, 238, 0.06);
+  --tab-active: rgba(34, 211, 238, 0.15);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --ring-track: rgba(34, 211, 238, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow-heavy: rgba(0, 0, 0, 0.65);
+  --warning-amber: #f59e0b;
+  --warning-red: #ef4444;
+  --success: #10b981;
+  --gradient-spot-1: rgba(34, 211, 238, 0.07);
+  --gradient-spot-2: rgba(34, 211, 238, 0.04);
+
+  /* shadcn bridge */
+  --background: #0c1018;
+  --foreground: #e8ecf4;
+  --card: #161b2a;
+  --card-foreground: #e8ecf4;
+  --popover: #1e2436;
+  --popover-foreground: #e8ecf4;
+  --primary: #22d3ee;
+  --primary-foreground: #0c1018;
+  --secondary: #1e2436;
+  --secondary-foreground: #e8ecf4;
+  --muted-foreground: #8892aa;
+  --accent-foreground: #e8ecf4;
+  --destructive: #ef4444;
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #22d3ee;
 }
 
 html[data-theme="high-contrast"] {
-  --bg: #030303;
-  --surface: #0d0d0d;
-  --text: #fff87a;
-  --muted: #fff3a3;
-  --accent: #fff87a;
-  --tab-active: #262626;
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --surface-raised: #141414;
+  --text: #ffff00;
+  --text-secondary: #ffe566;
+  --muted: #ffe566;
+  --accent: #00ffff;
+  --accent-bright: #00ffff;
+  --accent-light: rgba(0, 255, 255, 0.2);
+  --accent-muted: rgba(0, 255, 255, 0.1);
+  --tab-active: #1a1a1a;
+  --border: rgba(255, 255, 0, 0.3);
+  --border-strong: rgba(255, 255, 0, 0.5);
+  --ring-track: rgba(0, 255, 255, 0.25);
+  --shadow-color: transparent;
+  --shadow-heavy: transparent;
+  --warning-amber: #ffd700;
+  --warning-red: #ff4444;
+  --success: #00ff7f;
+  --gradient-spot-1: transparent;
+  --gradient-spot-2: transparent;
+
+  /* shadcn bridge */
+  --background: #000000;
+  --foreground: #ffff00;
+  --card: #0a0a0a;
+  --card-foreground: #ffff00;
+  --popover: #141414;
+  --popover-foreground: #ffff00;
+  --primary: #00ffff;
+  --primary-foreground: #000000;
+  --secondary: #141414;
+  --secondary-foreground: #ffff00;
+  --muted-foreground: #ffe566;
+  --accent-foreground: #ffff00;
+  --destructive: #ff4444;
+  --input: rgba(255, 255, 0, 0.2);
+  --ring: #00ffff;
 }
+
+/* ─── Global Styles ─── */
 
 body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 15% 5%, rgba(127, 165, 255, 0.13), transparent 40%),
-    radial-gradient(circle at 90% 10%, rgba(146, 181, 255, 0.08), transparent 35%),
+    radial-gradient(circle at 15% 5%, var(--gradient-spot-1), transparent 40%),
+    radial-gradient(circle at 90% 10%, var(--gradient-spot-2), transparent 35%),
     var(--bg);
   color: var(--text);
-  font-family: var(--font-nunito-sans), "Segoe UI", sans-serif;
+  font-family: var(--font-sans), "Segoe UI", system-ui, sans-serif;
 }
 
 button,
@@ -58,8 +212,10 @@ input[type="checkbox"] {
   accent-color: var(--accent);
 }
 
+/* ─── Timer Ring ─── */
+
 .timer-ring-track {
-  stroke: rgba(171, 186, 226, 0.18);
+  stroke: var(--ring-track);
 }
 
 .timer-ring-progress {
@@ -68,25 +224,31 @@ input[type="checkbox"] {
 }
 
 .timer-warning-final-minute .timer-ring-progress {
-  stroke: #f59e0b;
+  stroke: var(--warning-amber);
 }
 
 .timer-warning-final-ten .timer-ring-progress {
-  stroke: #ef4444;
+  stroke: var(--warning-red);
 }
+
+/* ─── Warning States ─── */
 
 .timer-warning-final-minute {
   box-shadow:
-    0 30px 80px rgba(8, 12, 28, 0.5),
-    inset 0 0 0 2px rgba(245, 158, 11, 0.45);
+    0 1px 3px var(--shadow-color),
+    0 20px 50px var(--shadow-heavy),
+    inset 0 0 0 2px color-mix(in srgb, var(--warning-amber) 45%, transparent);
 }
 
 .timer-warning-final-ten {
   box-shadow:
-    0 30px 80px rgba(8, 12, 28, 0.5),
-    inset 0 0 0 2px rgba(239, 68, 68, 0.55);
+    0 1px 3px var(--shadow-color),
+    0 20px 50px var(--shadow-heavy),
+    inset 0 0 0 2px color-mix(in srgb, var(--warning-red) 55%, transparent);
   animation: timerCriticalPulse 0.95s ease-in-out infinite;
 }
+
+/* ─── Icon Buttons ─── */
 
 .timer-icon-btn {
   display: inline-flex;
@@ -95,34 +257,98 @@ input[type="checkbox"] {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(171, 186, 226, 0.28);
+  border: 1px solid var(--border);
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.02);
-  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+  background: var(--accent-muted);
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
 }
 
 .timer-icon-btn:hover {
   color: var(--text);
-  border-color: rgba(171, 186, 226, 0.52);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-strong);
+  background: var(--accent-light);
 }
 
-.timer-add-btn {
-  border-radius: 9999px;
-  border: 1px solid rgba(171, 186, 226, 0.28);
-  background: rgba(255, 255, 255, 0.06);
-  padding: 0.58rem 1.3rem;
-  font-size: clamp(1.05rem, 1.5vw, 1.8rem);
+/* ─── Adjust Controls ─── */
+
+.timer-adjust-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.timer-adjust-group {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: var(--accent-muted);
+  overflow: hidden;
+}
+
+.timer-adjust-quick-btn {
+  min-width: 6.8rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0.62rem 1.25rem;
+  font-size: clamp(1.02rem, 1.45vw, 1.5rem);
   font-weight: 700;
   letter-spacing: 0.01em;
   color: var(--text);
-  transition: transform 140ms ease, border-color 140ms ease;
+  transition: background-color 140ms ease;
 }
 
-.timer-add-btn:hover {
-  transform: translateY(-1px);
-  border-color: var(--accent);
+.timer-adjust-quick-btn:hover {
+  background: var(--accent-light);
 }
+
+.timer-adjust-arrow-btn {
+  width: 3rem;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  color: var(--muted);
+  background: var(--accent-muted);
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+.timer-adjust-arrow-btn:hover {
+  color: var(--text);
+  background: var(--accent-light);
+}
+
+.timer-adjust-arrow-left {
+  border-right: 1px solid var(--border);
+}
+
+.timer-adjust-arrow-right {
+  border-left: 1px solid var(--border);
+}
+
+.timer-adjust-menu {
+  min-width: 8.25rem;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  padding: 0.3rem;
+}
+
+.timer-adjust-menu-item {
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Action Buttons ─── */
 
 .timer-action-btn {
   width: 100%;
@@ -131,24 +357,35 @@ input[type="checkbox"] {
   font-size: clamp(1.15rem, 1.5vw, 1.7rem);
   font-weight: 700;
   letter-spacing: 0.01em;
-  transition: border-color 160ms ease, background-color 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
 }
 
 .timer-action-primary {
   border: 2px solid var(--accent);
-  background: rgba(171, 197, 255, 0.1);
+  background: var(--accent-light);
+  color: var(--accent);
 }
 
 .timer-action-secondary {
-  border: 1px solid rgba(171, 186, 226, 0.26);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  background: var(--accent-muted);
 }
 
-.timer-action-primary:hover,
-.timer-action-secondary:hover {
-  border-color: rgba(171, 197, 255, 0.9);
-  background: rgba(171, 197, 255, 0.16);
+.timer-action-primary:hover {
+  border-color: var(--accent-bright);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  transform: scale(1.01);
 }
+
+.timer-action-secondary:hover {
+  border-color: var(--border-strong);
+  background: var(--accent-light);
+}
+
+/* ─── Animations ─── */
 
 @keyframes timerCriticalPulse {
   0% {
@@ -161,5 +398,58 @@ input[type="checkbox"] {
 
   100% {
     transform: scale(1);
+  }
+}
+
+/* ─── Tailwind v4 Theme Mapping ─── */
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
