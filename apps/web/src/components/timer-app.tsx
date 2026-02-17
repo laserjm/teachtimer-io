@@ -462,11 +462,11 @@ export default function TimerApp() {
   return (
     <main className="min-h-screen bg-[var(--bg)] p-3 md:p-4">
       <section
-        className={`timer-shell timer-warning-${warningLevel} mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1320px] flex-col rounded-[24px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4 text-[var(--text)] shadow-[0_1px_3px_var(--shadow-color),0_20px_50px_var(--shadow-heavy)] md:px-5`}
+        className={`timer-shell timer-warning-${warningLevel} mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1320px] flex-col rounded-[24px] border border-[var(--glass-border)] border-t-[var(--glass-highlight)] bg-[var(--surface)]/90 px-4 py-4 text-[var(--text)] shadow-[0_2px_8px_var(--shadow-color),0_16px_48px_var(--shadow-heavy)] backdrop-blur-[24px] backdrop-saturate-[160%] md:px-5`}
       >
         <header className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 text-sm md:text-[2rem]">
-            <span className="inline-flex items-center rounded-full border border-transparent bg-[var(--tab-active)] px-5 py-2 text-base font-semibold text-[var(--text)] md:text-[2rem]">
+            <span className="glass inline-flex items-center rounded-full px-5 py-2 text-base font-semibold text-[var(--text)] md:text-[2rem]">
               Timer
             </span>
             <span className="inline-flex items-center rounded-full border border-transparent px-3 py-2 text-base font-semibold text-[var(--muted)] md:text-[2rem]">
@@ -656,7 +656,7 @@ export default function TimerApp() {
         <DialogContent
           aria-label="Timer settings"
           showCloseButton={false}
-          className="max-w-2xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 text-[var(--text)] shadow-2xl"
+          className="glass-heavy max-w-2xl rounded-3xl p-5 text-[var(--text)] shadow-[0_8px_32px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.06)]"
         >
           <DialogHeader className="flex-row items-center justify-between">
             <DialogTitle className="text-lg font-semibold text-[var(--text)]">
