@@ -16,4 +16,3 @@ coverage
 # Workspace outputs
 apps/*/node_modules
 packages/*/node_modules
-PRD.md
