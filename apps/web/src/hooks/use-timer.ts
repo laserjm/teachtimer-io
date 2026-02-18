@@ -92,12 +92,14 @@ export function useTimer(initialDuration = 300): UseTimerReturn {
   }, [isRunning, targetTimestampMs]);
 
   const start = useCallback(() => {
-    if (remainingSeconds <= 0) return;
+    const startFrom = remainingSeconds > 0 ? remainingSeconds : durationSeconds;
+    if (startFrom <= 0) return;
     completedRef.current = false;
     setJustCompleted(false);
-    setTargetTimestampMs(Date.now() + remainingSeconds * 1000);
+    setRemainingSeconds(startFrom);
+    setTargetTimestampMs(Date.now() + startFrom * 1000);
     setIsRunning(true);
-  }, [remainingSeconds]);
+  }, [durationSeconds, remainingSeconds]);
 
   const pause = useCallback(() => {
     setIsRunning(false);
