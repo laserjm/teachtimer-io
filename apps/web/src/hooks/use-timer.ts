@@ -29,6 +29,7 @@ export interface UseTimerReturn {
   toggle: () => void;
   selectPreset: (preset: Preset) => void;
   setDuration: (seconds: number) => void;
+  setRemaining: (seconds: number) => void;
   addTime: (seconds: number) => void;
   justCompleted: boolean;
 }
@@ -43,6 +44,16 @@ export function useTimer(initialDuration = 300): UseTimerReturn {
   const [isRunning, setIsRunning] = useState(false);
   const [justCompleted, setJustCompleted] = useState(false);
   const completedRef = useRef(false);
+
+  const completeNow = useCallback(() => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+    setIsRunning(false);
+    setTargetTimestampMs(null);
+    setRemainingSeconds(0);
+    setJustCompleted(true);
+    void playCompletionSound("chime", 0.6);
+  }, []);
 
   const progress = useMemo(
     () => progressPercent(durationSeconds, remainingSeconds),
@@ -77,19 +88,13 @@ export function useTimer(initialDuration = 300): UseTimerReturn {
     const tick = () => {
       const remaining = remainingFromTarget(targetTimestampMs);
       setRemainingSeconds(remaining);
-      if (remaining <= 0 && !completedRef.current) {
-        completedRef.current = true;
-        setIsRunning(false);
-        setTargetTimestampMs(null);
-        setJustCompleted(true);
-        void playCompletionSound("chime", 0.6);
-      }
+      if (remaining <= 0) completeNow();
     };
 
     const id = setInterval(tick, 100);
     tick();
     return () => clearInterval(id);
-  }, [isRunning, targetTimestampMs]);
+  }, [completeNow, isRunning, targetTimestampMs]);
 
   const start = useCallback(() => {
     const startFrom = remainingSeconds > 0 ? remainingSeconds : durationSeconds;
@@ -138,6 +143,29 @@ export function useTimer(initialDuration = 300): UseTimerReturn {
     completedRef.current = false;
   }, []);
 
+  const setRemaining = useCallback(
+    (seconds: number) => {
+      const nextRemaining = clamp(Math.round(seconds), 0, durationSeconds);
+
+      if (nextRemaining > 0) {
+        setJustCompleted(false);
+        completedRef.current = false;
+      }
+
+      setRemainingSeconds(nextRemaining);
+
+      if (nextRemaining <= 0) {
+        completeNow();
+        return;
+      }
+
+      if (isRunning) {
+        setTargetTimestampMs(Date.now() + nextRemaining * 1000);
+      }
+    },
+    [completeNow, durationSeconds, isRunning],
+  );
+
   const addTime = useCallback(
     (seconds: number) => {
       void unlockAudioContext();
@@ -168,6 +196,7 @@ export function useTimer(initialDuration = 300): UseTimerReturn {
     toggle,
     selectPreset,
     setDuration,
+    setRemaining,
     addTime,
     justCompleted,
   };
