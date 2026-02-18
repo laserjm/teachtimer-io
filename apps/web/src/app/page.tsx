@@ -1,5 +1,16 @@
-import TimerApp from "@/components/timer-app";
+import { Space_Mono } from "next/font/google";
+import TimerBrutalist from "@/components/timer-designs/timer-one";
 
-export default function Home() {
-  return <TimerApp />;
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-mono",
+});
+
+export default function Page() {
+  return (
+    <div className={spaceMono.variable}>
+      <TimerBrutalist />
+    </div>
+  );
 }
